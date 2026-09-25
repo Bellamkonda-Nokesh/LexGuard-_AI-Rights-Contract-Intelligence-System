@@ -1,6 +1,6 @@
 import React from "react";
 import type { SeverityLevel } from "../types";
-import { formatSeverityColor } from "../lib/utils";
+import { formatSeverityColor } from "../utils";
 import { ShieldAlert, AlertCircle, AlertTriangle, CheckCircle, Sparkles } from "lucide-react";
 
 interface RiskGaugeProps {

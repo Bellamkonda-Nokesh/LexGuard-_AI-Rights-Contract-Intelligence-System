@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import type { DocumentHistoryItem } from "../types";
 import { fetchDocumentHistory } from "../services/api";
-import { formatSeverityColor } from "../lib/utils";
+import { formatSeverityColor } from "../utils";
 import { History, FileText, ArrowRight, Calendar } from "lucide-react";
 
 interface DocumentHistoryViewProps {

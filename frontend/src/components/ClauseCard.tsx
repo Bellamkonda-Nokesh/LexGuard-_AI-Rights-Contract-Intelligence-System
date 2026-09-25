@@ -11,7 +11,7 @@ import {
   HelpCircle 
 } from "lucide-react";
 import type { ClauseAnalysis } from "../types";
-import { formatSeverityColor } from "../lib/utils";
+import { formatSeverityColor } from "../utils";
 
 interface ClauseCardProps {
   clause: ClauseAnalysis;
