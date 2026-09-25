@@ -1,0 +1,32 @@
+version: "3.9"
+
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: lexguard-backend
+    ports:
+      - "8000:8080"
+    environment:
+      - PORT=8080
+      - ENVIRONMENT=development
+      - DEBUG=true
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
+      - FIRESTORE_PROJECT_ID=${FIRESTORE_PROJECT_ID}
+    volumes:
+      - ./backend/chroma_db:/app/chroma_db
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: lexguard-frontend
+    ports:
+      - "5173:80"
+    environment:
+      - VITE_API_URL=http://localhost:8000/api
+    depends_on:
+      - backend
+    restart: unless-stopped
