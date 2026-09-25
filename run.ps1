@@ -212,7 +212,7 @@ function Start-Servers {
     Write-Host "  Press Ctrl+C to stop servers.`n" -ForegroundColor Yellow
 
     # Launch Backend in background process or separate window
-    $backendCmd = "cd '$ScriptDir\backend'; uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload"
+    $backendCmd = "cd '$ScriptDir\backend'; python -m uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload"
     $backendProcess = Start-Process powershell -ArgumentList "-NoExit", "-Command", $backendCmd -PassThru
 
     # Launch Frontend in current window or separate window

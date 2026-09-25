@@ -183,7 +183,7 @@ python -m app.data.seed_benchmarks
 pytest tests -v
 
 # Start FastAPI server
-uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+python -m uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
 ```
 The backend will be available at `http://localhost:8000` (Interactive Swagger docs at `http://localhost:8000/docs`).
 
