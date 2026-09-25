@@ -1,5 +1,5 @@
 ﻿import React from "react";
-import { Search, Bell, LogIn, LogOut } from "lucide-react";
+import { Search, Bell, LogIn, LogOut, Home } from "lucide-react";
 import type { AuthUser } from "../types";
 
 interface NavbarProps {
@@ -8,6 +8,7 @@ interface NavbarProps {
   user: AuthUser | null;
   onLogin: () => void;
   onLogout: () => void;
+  onGoToLanding?: () => void;
 }
 
 export const Navbar: React.FC<NavbarProps> = ({
@@ -16,23 +17,36 @@ export const Navbar: React.FC<NavbarProps> = ({
   user,
   onLogin,
   onLogout,
+  onGoToLanding,
 }) => {
   return (
-    <header className="bg-white border-b border-slate-100 px-6 py-3.5 sticky top-[37px] z-30">
+    <header className="bg-white border-b border-slate-100 px-6 py-3.5 sticky top-0 z-30">
       <div className="flex items-center justify-between gap-4">
-        {/* Left Greeting matching Reference Image 3 ("Hi Nanas, Welcome to Peymen") */}
-        <div>
-          <h1 className="text-xl font-extrabold text-navy-800 tracking-tight">
-            {currentTab === "analyze" ? "Contract Intelligence Dashboard" : currentTab === "history" ? "Contract History" : "Standard Fair Benchmarks"}
-          </h1>
-          <p className="text-xs text-slate-400 font-medium">
-            Autonomous multi-agent legal reasoning powered by Google Gemini 2.5
-          </p>
+        {/* Left Greeting */}
+        <div className="flex items-center gap-3">
+          {onGoToLanding && (
+            <button
+              onClick={onGoToLanding}
+              title="Return to Landing Page"
+              className="md:hidden w-8 h-8 rounded-xl bg-slate-50 flex items-center justify-center text-slate-500 hover:text-navy-800 transition"
+              aria-label="Home"
+            >
+              <Home className="w-4 h-4" />
+            </button>
+          )}
+          <div>
+            <h1 className="text-xl font-extrabold text-navy-800 tracking-tight">
+              {currentTab === "analyze" ? "Contract Intelligence Dashboard" : currentTab === "history" ? "Contract History" : "Standard Fair Benchmarks"}
+            </h1>
+            <p className="text-xs text-slate-400 font-medium">
+              Autonomous multi-agent legal reasoning powered by Google Gemini 2.5
+            </p>
+          </div>
         </div>
 
         {/* Right Controls: Search, Notification, Profile Chip */}
         <div className="flex items-center gap-3">
-          {/* Rounded-full Search bar matching reference images */}
+          {/* Rounded-full Search bar */}
           <div className="relative hidden sm:block w-64">
             <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
             <input
@@ -52,7 +66,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             <span className="w-2 h-2 rounded-full bg-brand-600 absolute top-2 right-2 ring-2 ring-white" />
           </button>
 
-          {/* User Profile Chip matching reference images (avatar + name + chevron) */}
+          {/* User Profile Chip */}
           {user ? (
             <div className="flex items-center gap-2.5 pl-2 border-l border-slate-200">
               <div className="w-9 h-9 rounded-full bg-gradient-to-tr from-brand-600 to-indigo-500 text-white flex items-center justify-center text-xs font-bold shadow-sm">

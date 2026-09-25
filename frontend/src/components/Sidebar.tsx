@@ -1,14 +1,13 @@
-import React from "react";
+﻿import React from "react";
 import { 
   LayoutDashboard, 
-  UploadCloud, 
   History, 
   Scale, 
   Cpu, 
   ShieldCheck, 
   Sparkles, 
-  HelpCircle,
-  Plus
+  Plus,
+  Home
 } from "lucide-react";
 
 interface SidebarProps {
@@ -16,6 +15,7 @@ interface SidebarProps {
   setCurrentTab: (tab: "analyze" | "history" | "benchmarks") => void;
   onNewUpload: () => void;
   hasReport: boolean;
+  onGoToLanding?: () => void;
 }
 
 export const Sidebar: React.FC<SidebarProps> = ({
@@ -23,17 +23,18 @@ export const Sidebar: React.FC<SidebarProps> = ({
   setCurrentTab,
   onNewUpload,
   hasReport,
+  onGoToLanding,
 }) => {
   return (
-    <aside className="w-64 shrink-0 bg-white border-r border-slate-100 flex flex-col justify-between p-5 min-h-[calc(100vh-37px)] sticky top-[37px] hidden md:flex">
+    <aside className="w-64 shrink-0 bg-white border-r border-slate-100 flex flex-col justify-between p-5 min-h-screen sticky top-0 hidden md:flex">
       <div className="space-y-6">
         {/* Brand */}
         <div 
-          onClick={() => { setCurrentTab("analyze"); }}
+          onClick={onGoToLanding || (() => setCurrentTab("analyze"))}
           className="flex items-center gap-3 cursor-pointer group px-2"
           role="button"
           tabIndex={0}
-          onKeyDown={(e) => e.key === "Enter" && setCurrentTab("analyze")}
+          onKeyDown={(e) => e.key === "Enter" && (onGoToLanding ? onGoToLanding() : setCurrentTab("analyze"))}
         >
           <div className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-brand-700 via-brand-600 to-indigo-500 flex items-center justify-center text-white shadow-card-glow group-hover:scale-105 transition-transform">
             <ShieldCheck className="w-5 h-5" />
@@ -103,6 +104,16 @@ export const Sidebar: React.FC<SidebarProps> = ({
             <Scale className="w-4 h-4" />
             <span>Fair Benchmarks</span>
           </button>
+
+          {onGoToLanding && (
+            <button
+              onClick={onGoToLanding}
+              className="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-2xl text-xs font-semibold text-slate-500 hover:text-navy-800 hover:bg-slate-50 transition-all"
+            >
+              <Home className="w-4 h-4" />
+              <span>Landing Page</span>
+            </button>
+          )}
         </div>
 
         {/* Multi-Agent System Section */}
@@ -126,7 +137,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
         </div>
       </div>
 
-      {/* Bottom Promo Card matching Reference Image 3 ("Universal Card / Get a Premium Account") */}
+      {/* Bottom Promo Card matching Reference Image 3 ("Universal Card") */}
       <div className="p-4 rounded-3xl bg-gradient-to-br from-indigo-500 via-brand-600 to-indigo-700 text-white shadow-card-glow relative overflow-hidden space-y-3">
         {/* Subtle decorative circles */}
         <div className="absolute -top-6 -right-6 w-20 h-20 rounded-full bg-white/10 blur-sm pointer-events-none" />

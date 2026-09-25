@@ -1,5 +1,4 @@
 ﻿import React, { useState, useEffect } from "react";
-import { DisclaimerBanner } from "./components/DisclaimerBanner";
 import { Navbar } from "./components/Navbar";
 import { Sidebar } from "./components/Sidebar";
 import { LandingHero } from "./components/LandingHero";
@@ -9,12 +8,15 @@ import { ResultsDashboard } from "./components/ResultsDashboard";
 import { DocumentHistoryView } from "./components/DocumentHistoryView";
 import { BenchmarkLibraryView } from "./components/BenchmarkLibraryModal";
 import { AuthModal } from "./components/AuthModal";
+import { LandingPage } from "./pages/LandingPage";
+import { LoginPage } from "./pages/LoginPage";
 import type { DocumentRiskReport, AuthUser } from "./types";
 import { analyzeContract, fetchDocumentReport } from "./services/api";
 import { auth, logoutUser } from "./services/firebase";
 import { onAuthStateChanged } from "firebase/auth";
 
 export function App() {
+  const [currentPage, setCurrentPage] = useState<"landing" | "login" | "dashboard">("landing");
   const [currentTab, setCurrentTab] = useState<"analyze" | "history" | "benchmarks">("analyze");
   const [currentReport, setCurrentReport] = useState<DocumentRiskReport | null>(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -87,15 +89,38 @@ export function App() {
   const handleLogout = async () => {
     await logoutUser();
     setUser(null);
+    setCurrentPage("landing");
   };
 
+  // 1. Dedicated Landing Page Route
+  if (currentPage === "landing") {
+    return (
+      <LandingPage
+        onLaunchDashboard={() => setCurrentPage("dashboard")}
+        onGoToLogin={() => setCurrentPage("login")}
+        onSelectSample={() => setCurrentPage("dashboard")}
+      />
+    );
+  }
+
+  // 2. Dedicated Login / Register Page Route
+  if (currentPage === "login") {
+    return (
+      <LoginPage
+        onSuccess={(newUser) => {
+          setUser(newUser);
+          setCurrentPage("dashboard");
+        }}
+        onBackToHome={() => setCurrentPage("landing")}
+      />
+    );
+  }
+
+  // 3. Core Contract Intelligence Dashboard
   return (
     <div className="min-h-screen flex flex-col bg-canvas text-navy-800 antialiased font-sans">
-      {/* 1. Persistent Legal Disclaimer Banner */}
-      <DisclaimerBanner />
-
       <div className="flex-1 flex w-full">
-        {/* 2. Left Navigation Sidebar matching Reference Images 3 & 4 */}
+        {/* Left Navigation Sidebar */}
         <Sidebar
           currentTab={currentTab}
           setCurrentTab={setCurrentTab}
@@ -104,16 +129,18 @@ export function App() {
             setCurrentTab("analyze");
           }}
           hasReport={!!currentReport}
+          onGoToLanding={() => setCurrentPage("landing")}
         />
 
-        {/* 3. Main Application Canvas */}
+        {/* Main Application Canvas */}
         <div className="flex-1 flex flex-col min-w-0">
           <Navbar
             currentTab={currentTab}
             setCurrentTab={setCurrentTab}
             user={user}
-            onLogin={() => setAuthModalOpen(true)}
+            onLogin={() => setCurrentPage("login")}
             onLogout={handleLogout}
+            onGoToLanding={() => setCurrentPage("landing")}
           />
 
           <main className="flex-1 p-4 sm:p-6 lg:p-8 max-w-[1500px] w-full mx-auto">
@@ -150,7 +177,7 @@ export function App() {
             )}
           </main>
 
-          {/* 4. Sleek Footer */}
+          {/* Sleek Footer with persistent legal notice */}
           <footer className="border-t border-slate-100 bg-white py-5 px-6">
             <div className="max-w-[1500px] mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-400">
               <p>
@@ -164,7 +191,7 @@ export function App() {
         </div>
       </div>
 
-      {/* 5. Firebase Auth Dialog */}
+      {/* Firebase Auth Modal fallback */}
       <AuthModal
         isOpen={authModalOpen}
         onClose={() => setAuthModalOpen(false)}
