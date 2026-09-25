@@ -1,8 +1,10 @@
 import "@testing-library/jest-dom/vitest";
 
-// Mock clipboard
-Object.assign(navigator, {
-  clipboard: {
+// Mock clipboard safely via Object.defineProperty
+Object.defineProperty(navigator, "clipboard", {
+  value: {
     writeText: () => Promise.resolve(),
   },
+  writable: true,
+  configurable: true,
 });
