@@ -36,17 +36,17 @@ export const BenchmarkLibraryView: React.FC = () => {
   ];
 
   return (
-    <div className="max-w-6xl mx-auto space-y-6">
+    <div className="space-y-6 pb-12">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <div className="flex items-center gap-2 text-blue-600 dark:text-blue-400 font-bold text-xs uppercase tracking-wider">
+          <div className="flex items-center gap-2 text-brand-600 font-bold text-xs uppercase tracking-wider">
             <BookOpen className="w-4 h-4" />
             <span>Chroma Vector Store RAG Library</span>
           </div>
-          <h2 className="text-2xl font-bold text-slate-900 dark:text-white mt-1">
+          <h2 className="text-xl sm:text-2xl font-extrabold text-navy-800 tracking-tight mt-1">
             Standard & Fair Legal Clause Benchmarks
           </h2>
-          <p className="text-sm text-slate-500">
+          <p className="text-xs text-slate-400">
             Gold-standard balanced clauses used by the Risk Reasoning Agent to measure contract fairness.
           </p>
         </div>
@@ -58,10 +58,10 @@ export const BenchmarkLibraryView: React.FC = () => {
             <button
               key={c.id}
               onClick={() => setSelectedCategory(c.id)}
-              className={`px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap transition-all ${
+              className={`px-3 py-1.5 rounded-full text-xs font-bold whitespace-nowrap transition-all ${
                 selectedCategory === c.id
-                  ? "bg-blue-600 text-white shadow-sm"
-                  : "bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:bg-slate-50"
+                  ? "bg-brand-600 text-white shadow-soft-sm"
+                  : "bg-white text-slate-500 border border-slate-100 hover:bg-slate-50"
               }`}
             >
               {c.label}
@@ -71,44 +71,44 @@ export const BenchmarkLibraryView: React.FC = () => {
       </div>
 
       {loading ? (
-        <div className="py-12 text-center text-slate-500 font-medium">
-          Loading benchmark clauses...
+        <div className="py-16 text-center text-slate-400 text-xs font-semibold">
+          Loading benchmark clauses from Chroma vector store...
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {benchmarks.map((b) => (
             <div
               key={b.id}
-              className="p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm space-y-4 flex flex-col justify-between"
+              className="p-6 rounded-3xl bg-white border border-slate-100 shadow-soft space-y-4 flex flex-col justify-between"
             >
-              <div className="space-y-2">
+              <div className="space-y-3">
                 <div className="flex items-center justify-between">
-                  <span className="px-2.5 py-0.5 rounded-md text-xs font-bold uppercase bg-blue-50 dark:bg-blue-950 text-blue-700 dark:text-blue-300">
+                  <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase bg-brand-50 text-brand-700">
                     {b.category.replace("_", " ")}
                   </span>
-                  <span className="text-xs font-mono text-slate-400">
+                  <span className="text-[11px] font-mono text-slate-400">
                     {b.clause_type}
                   </span>
                 </div>
-                <h3 className="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                <h3 className="text-base font-extrabold text-navy-800 flex items-center gap-2">
                   <Scale className="w-4 h-4 text-emerald-600 shrink-0" />
                   <span>{b.title}</span>
                 </h3>
-                <div className="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-850 font-mono text-xs text-slate-800 dark:text-slate-200 leading-relaxed border border-slate-200 dark:border-slate-800">
+                <div className="p-4 rounded-2xl bg-slate-50/70 font-mono text-xs text-slate-700 leading-relaxed border border-slate-100">
                   "{b.standard_clause_text}"
                 </div>
-                <p className="text-xs text-slate-600 dark:text-slate-300">
-                  <strong>Fairness Rationale:</strong> {b.fairness_rationale}
+                <p className="text-xs text-slate-600 leading-relaxed">
+                  <strong className="text-navy-800">Fairness Rationale:</strong> {b.fairness_rationale}
                 </p>
               </div>
 
-              <div className="space-y-3 pt-3 border-t border-slate-100 dark:border-slate-800">
+              <div className="space-y-3 pt-3 border-t border-slate-100">
                 {b.key_safeguards?.length > 0 && (
                   <div className="space-y-1">
-                    <span className="text-[11px] font-bold text-emerald-700 dark:text-emerald-400 uppercase tracking-wider flex items-center gap-1">
-                      <CheckCircle2 className="w-3.5 h-3.5" /> Key Safeguards:
+                    <span className="text-[10px] font-bold text-emerald-700 uppercase tracking-wider flex items-center gap-1">
+                      <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" /> Key Safeguards:
                     </span>
-                    <ul className="text-xs text-slate-600 dark:text-slate-300 list-disc list-inside space-y-0.5">
+                    <ul className="text-xs text-slate-500 list-disc list-inside space-y-0.5">
                       {b.key_safeguards.map((s, idx) => (
                         <li key={idx}>{s}</li>
                       ))}
@@ -118,10 +118,10 @@ export const BenchmarkLibraryView: React.FC = () => {
 
                 {b.typical_red_flags?.length > 0 && (
                   <div className="space-y-1">
-                    <span className="text-[11px] font-bold text-red-700 dark:text-red-400 uppercase tracking-wider flex items-center gap-1">
-                      <AlertTriangle className="w-3.5 h-3.5" /> Typical Aggressive Red Flags:
+                    <span className="text-[10px] font-bold text-rose-700 uppercase tracking-wider flex items-center gap-1">
+                      <AlertTriangle className="w-3.5 h-3.5 text-rose-600" /> Typical Aggressive Red Flags:
                     </span>
-                    <ul className="text-xs text-slate-600 dark:text-slate-300 list-disc list-inside space-y-0.5">
+                    <ul className="text-xs text-slate-500 list-disc list-inside space-y-0.5">
                       {b.typical_red_flags.map((rf, idx) => (
                         <li key={idx}>{rf}</li>
                       ))}

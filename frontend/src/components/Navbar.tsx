@@ -1,5 +1,5 @@
-import React from "react";
-import { Shield, History, BookOpen, Cpu, LogIn, LogOut, User as UserIcon } from "lucide-react";
+﻿import React from "react";
+import { Search, Bell, LogIn, LogOut } from "lucide-react";
 import type { AuthUser } from "../types";
 
 interface NavbarProps {
@@ -18,92 +18,58 @@ export const Navbar: React.FC<NavbarProps> = ({
   onLogout,
 }) => {
   return (
-    <header className="sticky top-0 z-40 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border-b border-slate-200 dark:border-slate-800">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-        {/* Brand */}
-        <div 
-          onClick={() => setCurrentTab("analyze")} 
-          className="flex items-center gap-2.5 cursor-pointer group"
-          role="button"
-          tabIndex={0}
-          onKeyDown={(e) => e.key === "Enter" && setCurrentTab("analyze")}
-          aria-label="LexGuard Home"
-        >
-          <div className="w-10 h-10 rounded-xl bg-blue-600 flex items-center justify-center text-white shadow-md shadow-blue-500/20 group-hover:scale-105 transition-transform">
-            <Shield className="w-5 h-5" aria-hidden="true" />
-          </div>
-          <div>
-            <div className="flex items-center gap-1.5">
-              <span className="font-bold text-lg text-slate-900 dark:text-white tracking-tight">
-                LexGuard
-              </span>
-              <span className="text-[10px] font-semibold tracking-wider uppercase px-1.5 py-0.5 rounded bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-300">
-                AI Rights
-              </span>
-            </div>
-            <p className="text-[11px] text-slate-500 dark:text-slate-400 font-medium">
-              Contract Intelligence System
-            </p>
-          </div>
+    <header className="bg-white border-b border-slate-100 px-6 py-3.5 sticky top-[37px] z-30">
+      <div className="flex items-center justify-between gap-4">
+        {/* Left Greeting matching Reference Image 3 ("Hi Nanas, Welcome to Peymen") */}
+        <div>
+          <h1 className="text-xl font-extrabold text-navy-800 tracking-tight">
+            {currentTab === "analyze" ? "Contract Intelligence Dashboard" : currentTab === "history" ? "Contract History" : "Standard Fair Benchmarks"}
+          </h1>
+          <p className="text-xs text-slate-400 font-medium">
+            Autonomous multi-agent legal reasoning powered by Google Gemini 2.5
+          </p>
         </div>
 
-        {/* Navigation Tabs */}
-        <nav className="flex items-center gap-1 sm:gap-2" aria-label="Main Navigation">
-          <button
-            onClick={() => setCurrentTab("analyze")}
-            className={`px-3 py-2 rounded-lg text-sm font-medium flex items-center gap-2 transition-all ${
-              currentTab === "analyze"
-                ? "bg-blue-50 text-blue-700 dark:bg-blue-950/60 dark:text-blue-300 font-semibold"
-                : "text-slate-600 dark:text-slate-300 hover:text-slate-900 hover:bg-slate-100 dark:hover:bg-slate-800"
-            }`}
-            aria-current={currentTab === "analyze" ? "page" : undefined}
+        {/* Right Controls: Search, Notification, Profile Chip */}
+        <div className="flex items-center gap-3">
+          {/* Rounded-full Search bar matching reference images */}
+          <div className="relative hidden sm:block w-64">
+            <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+            <input
+              type="text"
+              placeholder="Search contracts, clauses..."
+              className="w-full pl-9 pr-4 py-2 bg-slate-50 border border-slate-100 rounded-full text-xs text-navy-800 placeholder:text-slate-400 focus:bg-white focus:border-brand-300 transition-all"
+            />
+          </div>
+
+          {/* Notification Bell */}
+          <button 
+            type="button" 
+            className="w-9 h-9 rounded-full bg-slate-50 hover:bg-slate-100 border border-slate-100 flex items-center justify-center text-slate-500 relative transition-colors"
+            aria-label="Notifications"
           >
-            <Cpu className="w-4 h-4" aria-hidden="true" />
-            <span>Analyze</span>
+            <Bell className="w-4 h-4" />
+            <span className="w-2 h-2 rounded-full bg-brand-600 absolute top-2 right-2 ring-2 ring-white" />
           </button>
 
-          <button
-            onClick={() => setCurrentTab("history")}
-            className={`px-3 py-2 rounded-lg text-sm font-medium flex items-center gap-2 transition-all ${
-              currentTab === "history"
-                ? "bg-blue-50 text-blue-700 dark:bg-blue-950/60 dark:text-blue-300 font-semibold"
-                : "text-slate-600 dark:text-slate-300 hover:text-slate-900 hover:bg-slate-100 dark:hover:bg-slate-800"
-            }`}
-            aria-current={currentTab === "history" ? "page" : undefined}
-          >
-            <History className="w-4 h-4" aria-hidden="true" />
-            <span>History</span>
-          </button>
-
-          <button
-            onClick={() => setCurrentTab("benchmarks")}
-            className={`px-3 py-2 rounded-lg text-sm font-medium flex items-center gap-2 transition-all ${
-              currentTab === "benchmarks"
-                ? "bg-blue-50 text-blue-700 dark:bg-blue-950/60 dark:text-blue-300 font-semibold"
-                : "text-slate-600 dark:text-slate-300 hover:text-slate-900 hover:bg-slate-100 dark:hover:bg-slate-800"
-            }`}
-            aria-current={currentTab === "benchmarks" ? "page" : undefined}
-          >
-            <BookOpen className="w-4 h-4" aria-hidden="true" />
-            <span className="hidden sm:inline">Fair Benchmarks</span>
-            <span className="sm:hidden">Benchmarks</span>
-          </button>
-        </nav>
-
-        {/* Auth / Session State */}
-        <div className="flex items-center gap-2">
+          {/* User Profile Chip matching reference images (avatar + name + chevron) */}
           {user ? (
-            <div className="flex items-center gap-2.5 bg-slate-100 dark:bg-slate-800 py-1.5 px-3 rounded-full border border-slate-200 dark:border-slate-700">
-              <div className="w-6 h-6 rounded-full bg-blue-600 text-white flex items-center justify-center text-xs font-bold">
-                {user.displayName ? user.displayName[0].toUpperCase() : "U"}
+            <div className="flex items-center gap-2.5 pl-2 border-l border-slate-200">
+              <div className="w-9 h-9 rounded-full bg-gradient-to-tr from-brand-600 to-indigo-500 text-white flex items-center justify-center text-xs font-bold shadow-sm">
+                {user.displayName ? user.displayName[0].toUpperCase() : "A"}
               </div>
-              <span className="text-xs font-medium text-slate-700 dark:text-slate-200 hidden sm:inline max-w-[120px] truncate">
-                {user.displayName || user.email || "Signed In"}
-              </span>
+              <div className="hidden lg:block text-left">
+                <span className="text-xs font-bold text-navy-800 block leading-tight">
+                  {user.displayName || "Advocate"}
+                </span>
+                <span className="text-[10px] text-slate-400 font-semibold uppercase tracking-wider">
+                  Admin
+                </span>
+              </div>
               <button
                 onClick={onLogout}
                 title="Sign Out"
-                className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 p-0.5"
+                className="text-slate-400 hover:text-slate-600 p-1 rounded-lg"
                 aria-label="Sign Out"
               >
                 <LogOut className="w-4 h-4" />
@@ -112,14 +78,48 @@ export const Navbar: React.FC<NavbarProps> = ({
           ) : (
             <button
               onClick={onLogin}
-              className="flex items-center gap-1.5 px-3 py-1.5 text-xs sm:text-sm font-medium text-slate-700 dark:text-slate-200 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-750 rounded-lg shadow-sm transition"
-              aria-label="Sign in with Firebase"
+              className="flex items-center gap-2 px-4 py-2 text-xs font-bold text-brand-700 bg-brand-50 hover:bg-brand-100 border border-brand-200 rounded-full transition-all shadow-sm"
+              aria-label="Sign in"
             >
-              <LogIn className="w-4 h-4 text-blue-600" />
+              <LogIn className="w-3.5 h-3.5" />
               <span>Sign In</span>
             </button>
           )}
         </div>
+      </div>
+
+      {/* Mobile Tab Switcher */}
+      <div className="flex md:hidden items-center gap-2 mt-3 pt-2.5 border-t border-slate-100 overflow-x-auto">
+        <button
+          onClick={() => setCurrentTab("analyze")}
+          className={`px-3 py-1.5 rounded-full text-xs font-bold transition shrink-0 ${
+            currentTab === "analyze"
+              ? "bg-brand-600 text-white shadow-soft-sm"
+              : "bg-slate-50 text-slate-600 hover:bg-slate-100"
+          }`}
+        >
+          Analyze
+        </button>
+        <button
+          onClick={() => setCurrentTab("history")}
+          className={`px-3 py-1.5 rounded-full text-xs font-bold transition shrink-0 ${
+            currentTab === "history"
+              ? "bg-brand-600 text-white shadow-soft-sm"
+              : "bg-slate-50 text-slate-600 hover:bg-slate-100"
+          }`}
+        >
+          History
+        </button>
+        <button
+          onClick={() => setCurrentTab("benchmarks")}
+          className={`px-3 py-1.5 rounded-full text-xs font-bold transition shrink-0 ${
+            currentTab === "benchmarks"
+              ? "bg-brand-600 text-white shadow-soft-sm"
+              : "bg-slate-50 text-slate-600 hover:bg-slate-100"
+          }`}
+        >
+          Fair Benchmarks
+        </button>
       </div>
     </header>
   );

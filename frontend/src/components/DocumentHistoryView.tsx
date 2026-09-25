@@ -32,33 +32,35 @@ export const DocumentHistoryView: React.FC<DocumentHistoryViewProps> = ({
   }, [userId]);
 
   return (
-    <div className="max-w-4xl mx-auto space-y-6">
+    <div className="space-y-6 pb-12">
       <div className="flex items-center gap-3">
-        <div className="w-10 h-10 rounded-xl bg-blue-100 dark:bg-blue-950/60 text-blue-600 dark:text-blue-400 flex items-center justify-center">
+        <div className="w-10 h-10 rounded-2xl bg-indigo-50 text-brand-600 flex items-center justify-center">
           <History className="w-5 h-5" />
         </div>
         <div>
-          <h2 className="text-2xl font-bold text-slate-900 dark:text-white">
+          <h2 className="text-xl sm:text-2xl font-extrabold text-navy-800 tracking-tight">
             Past Contract Analyses
           </h2>
-          <p className="text-sm text-slate-500">
+          <p className="text-xs text-slate-400">
             Previously analyzed documents stored securely in Google Cloud Firestore.
           </p>
         </div>
       </div>
 
       {loading ? (
-        <div className="py-12 text-center text-slate-500 font-medium">
+        <div className="py-16 text-center text-slate-400 text-xs font-semibold">
           Loading document history from Firestore...
         </div>
       ) : historyItems.length === 0 ? (
-        <div className="p-12 text-center bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 space-y-3">
-          <FileText className="w-12 h-12 text-slate-300 mx-auto" />
-          <h3 className="text-base font-bold text-slate-800 dark:text-slate-200">
+        <div className="p-12 text-center bg-white rounded-3xl border border-slate-100 shadow-soft space-y-3">
+          <div className="w-12 h-12 rounded-2xl bg-slate-50 flex items-center justify-center text-slate-300 mx-auto">
+            <FileText className="w-6 h-6" />
+          </div>
+          <h3 className="text-sm font-bold text-navy-800">
             No Documents Analyzed Yet
           </h3>
-          <p className="text-sm text-slate-500 max-w-sm mx-auto">
-            Upload your first contract on the Analyze tab to generate a risk report.
+          <p className="text-xs text-slate-400 max-w-sm mx-auto">
+            Upload your first contract on the Dashboard tab to generate an intelligence risk report.
           </p>
         </div>
       ) : (
@@ -72,31 +74,36 @@ export const DocumentHistoryView: React.FC<DocumentHistoryViewProps> = ({
                 role="button"
                 tabIndex={0}
                 onKeyDown={(e) => (e.key === "Enter" || e.key === " ") && onSelectDocument(item.document_id)}
-                className="p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-blue-400 hover:shadow-md transition-all cursor-pointer flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 group"
+                className="p-5 rounded-3xl bg-white border border-slate-100 shadow-soft hover:border-brand-200 hover:shadow-soft-lg transition-all cursor-pointer flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 group"
               >
-                <div className="space-y-1">
-                  <div className="flex items-center gap-2">
-                    <span className={`px-2.5 py-0.5 rounded-full text-xs font-bold border ${sevColor.badge}`}>
-                      {item.overall_risk_level} ({Math.round(item.overall_risk_score)}/100)
-                    </span>
-                    <span className="text-xs text-slate-400 flex items-center gap-1">
-                      <Calendar className="w-3 h-3" />
-                      {item.uploaded_at?.slice(0, 10) || "Recent"}
-                    </span>
+                <div className="flex items-center gap-4">
+                  <div className="w-10 h-10 rounded-2xl bg-brand-50 text-brand-600 flex items-center justify-center shrink-0 font-bold text-xs uppercase">
+                    DOC
                   </div>
-                  <h4 className="text-base font-bold text-slate-900 dark:text-white group-hover:text-blue-600 transition-colors">
-                    {item.filename}
-                  </h4>
-                  <p className="text-xs text-slate-500 line-clamp-1">
-                    {item.summary_headline || `${item.flagged_clauses_count} flagged clauses identified`}
-                  </p>
+                  <div className="space-y-1">
+                    <div className="flex items-center gap-2">
+                      <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold border ${sevColor.badge}`}>
+                        {item.overall_risk_level} ({Math.round(item.overall_risk_score)}/100)
+                      </span>
+                      <span className="text-[11px] text-slate-400 flex items-center gap-1 font-medium">
+                        <Calendar className="w-3 h-3" />
+                        {item.uploaded_at?.slice(0, 10) || "Recent"}
+                      </span>
+                    </div>
+                    <h4 className="text-sm font-extrabold text-navy-800 group-hover:text-brand-600 transition-colors">
+                      {item.filename}
+                    </h4>
+                    <p className="text-xs text-slate-400 line-clamp-1">
+                      {item.summary_headline || `${item.flagged_clauses_count} flagged clauses identified`}
+                    </p>
+                  </div>
                 </div>
 
                 <div className="flex items-center gap-3 shrink-0 self-end sm:self-center">
-                  <span className="text-xs font-semibold text-slate-500">
+                  <span className="text-xs font-bold text-slate-400 bg-slate-50 px-2.5 py-1 rounded-full border border-slate-100">
                     {item.flagged_clauses_count} flagged
                   </span>
-                  <div className="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-400 group-hover:bg-blue-600 group-hover:text-white transition-all">
+                  <div className="w-8 h-8 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-400 group-hover:bg-brand-600 group-hover:text-white transition-all shadow-xs">
                     <ArrowRight className="w-4 h-4" />
                   </div>
                 </div>

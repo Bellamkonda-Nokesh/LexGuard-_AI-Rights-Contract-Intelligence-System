@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { loginWithGoogle, loginWithEmail, registerWithEmail } from "../services/firebase";
 import type { AuthUser } from "../types";
-import { X, Lock, Mail, Shield, AlertCircle } from "lucide-react";
+import { X, Lock, Mail, ShieldCheck, AlertCircle } from "lucide-react";
 
 interface AuthModalProps {
   isOpen: boolean;
@@ -38,7 +38,6 @@ export const AuthModal: React.FC<AuthModalProps> = ({
       }
     } catch (e: any) {
       console.warn("Google Auth popup error, switching to demo user session:", e);
-      // Fallback demo session so user can continue uninterrupted
       onSuccess({
         uid: "demo_google_user",
         email: "demo.user@lexguard.ai",
@@ -100,35 +99,35 @@ export const AuthModal: React.FC<AuthModalProps> = ({
 
   return (
     <div 
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/60 backdrop-blur-sm"
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-navy-900/40 backdrop-blur-sm"
       role="dialog"
       aria-modal="true"
       aria-labelledby="auth-modal-title"
     >
-      <div className="relative w-full max-w-md bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-2xl p-6 sm:p-8 space-y-6">
+      <div className="relative w-full max-w-md bg-white rounded-4xl border border-slate-100 shadow-soft-lg p-6 sm:p-8 space-y-6">
         <button
           onClick={onClose}
-          className="absolute top-5 right-5 p-1 rounded-full text-slate-400 hover:text-slate-600 dark:hover:text-slate-200"
+          className="absolute top-5 right-5 w-8 h-8 rounded-full bg-slate-50 flex items-center justify-center text-slate-400 hover:text-slate-600 transition-colors"
           aria-label="Close modal"
         >
-          <X className="w-5 h-5" />
+          <X className="w-4 h-4" />
         </button>
 
         <div className="text-center space-y-1">
-          <div className="w-12 h-12 rounded-2xl bg-blue-600 text-white flex items-center justify-center mx-auto mb-2 shadow-lg shadow-blue-500/20">
-            <Shield className="w-6 h-6" />
+          <div className="w-12 h-12 rounded-2xl bg-brand-50 text-brand-600 flex items-center justify-center mx-auto mb-2 shadow-xs">
+            <ShieldCheck className="w-6 h-6" />
           </div>
-          <h2 id="auth-modal-title" className="text-xl font-bold text-slate-900 dark:text-white">
+          <h2 id="auth-modal-title" className="text-xl font-extrabold text-navy-800">
             {isRegister ? "Create LexGuard Account" : "Sign in to LexGuard"}
           </h2>
-          <p className="text-xs text-slate-500">
-            Save contracts, review past analyses, and export intelligence reports.
+          <p className="text-xs text-slate-400">
+            Access past analyses, saved reports, and verified Firestore audit traces.
           </p>
         </div>
 
         {error && (
-          <div className="p-3 rounded-xl bg-red-50 text-red-700 text-xs font-medium flex items-center gap-2">
-            <AlertCircle className="w-4 h-4 shrink-0" />
+          <div className="p-3 rounded-2xl bg-rose-50 text-rose-800 text-xs font-semibold flex items-center gap-2 border border-rose-100">
+            <AlertCircle className="w-4 h-4 shrink-0 text-rose-600" />
             <span>{error}</span>
           </div>
         )}
@@ -137,7 +136,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
         <button
           onClick={handleGoogleLogin}
           disabled={loading}
-          className="w-full py-2.5 px-4 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-750 font-semibold text-sm text-slate-700 dark:text-slate-200 flex items-center justify-center gap-2 shadow-sm transition disabled:opacity-50"
+          className="w-full py-3 px-4 rounded-2xl border border-slate-200 bg-white hover:bg-slate-50 font-bold text-xs text-navy-800 flex items-center justify-center gap-2.5 shadow-soft-sm transition disabled:opacity-50"
         >
           <svg className="w-4 h-4" viewBox="0 0 24 24">
             <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
@@ -150,9 +149,9 @@ export const AuthModal: React.FC<AuthModalProps> = ({
 
         <div className="relative flex items-center justify-center">
           <div className="absolute inset-0 flex items-center">
-            <div className="w-full border-t border-slate-200 dark:border-slate-800" />
+            <div className="w-full border-t border-slate-100" />
           </div>
-          <span className="relative bg-white dark:bg-slate-900 px-3 text-[11px] font-semibold uppercase tracking-wider text-slate-400">
+          <span className="relative bg-white px-3 text-[10px] font-bold uppercase tracking-wider text-slate-400">
             Or with email
           </span>
         </div>
@@ -160,35 +159,35 @@ export const AuthModal: React.FC<AuthModalProps> = ({
         {/* Email / Password Form */}
         <form onSubmit={handleEmailAuth} className="space-y-3">
           <div>
-            <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
+            <label className="block text-[11px] font-bold text-navy-800 mb-1">
               Email Address
             </label>
             <div className="relative">
-              <Mail className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
+              <Mail className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
               <input
                 type="email"
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="you@company.com"
-                className="w-full pl-9 pr-3 py-2 text-sm rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white"
+                placeholder="advocate@company.com"
+                className="w-full pl-9 pr-3 py-2 text-xs rounded-2xl bg-slate-50 border border-slate-100 text-navy-800 placeholder:text-slate-400 focus:bg-white focus:border-brand-400"
               />
             </div>
           </div>
 
           <div>
-            <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
+            <label className="block text-[11px] font-bold text-navy-800 mb-1">
               Password
             </label>
             <div className="relative">
-              <Lock className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
+              <Lock className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
               <input
                 type="password"
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="••••••••"
-                className="w-full pl-9 pr-3 py-2 text-sm rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white"
+                className="w-full pl-9 pr-3 py-2 text-xs rounded-2xl bg-slate-50 border border-slate-100 text-navy-800 placeholder:text-slate-400 focus:bg-white focus:border-brand-400"
               />
             </div>
           </div>
@@ -196,25 +195,25 @@ export const AuthModal: React.FC<AuthModalProps> = ({
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 font-semibold text-sm text-white shadow-md shadow-blue-500/20 transition disabled:opacity-50"
+            className="w-full py-3 rounded-2xl bg-brand-600 hover:bg-brand-700 font-bold text-xs text-white shadow-soft transition disabled:opacity-50"
           >
             {isRegister ? "Create Account" : "Sign In"}
           </button>
         </form>
 
-        <div className="flex items-center justify-between text-xs text-slate-500 pt-1">
+        <div className="flex items-center justify-between text-xs text-slate-400 pt-1">
           <button
             type="button"
             onClick={() => setIsRegister(!isRegister)}
-            className="text-blue-600 dark:text-blue-400 hover:underline font-medium"
+            className="text-brand-600 hover:underline font-semibold"
           >
-            {isRegister ? "Already have an account? Sign in" : "Need an account? Sign up"}
+            {isRegister ? "Existing user? Sign In" : "Need an account? Register"}
           </button>
 
           <button
             type="button"
             onClick={handleDemoSignIn}
-            className="text-slate-500 hover:text-slate-800 dark:hover:text-slate-300 underline font-medium"
+            className="text-slate-500 hover:text-navy-800 underline font-semibold"
           >
             Continue as Guest
           </button>
