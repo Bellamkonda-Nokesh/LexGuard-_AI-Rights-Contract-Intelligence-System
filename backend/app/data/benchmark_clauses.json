@@ -1,0 +1,148 @@
+[
+  {
+    "id": "bench-emp-noncompete-01",
+    "category": "employment",
+    "clause_type": "non_compete",
+    "title": "Reasonable & Narrowly Tailored Non-Compete",
+    "standard_clause_text": "During the term of employment and for a period of six (6) months following voluntary termination, Employee shall not directly engage as an owner or executive in a business providing substantially identical software products within a fifty (50) mile radius of Employee's primary assigned office location, provided Employer pays 50% of the base salary as garden leave compensation during such period.",
+    "fairness_rationale": "Non-compete is limited in time (6 months), narrowly defined to identical competing products and executive roles, constrained to a reasonable geographic radius, and provides mandatory garden leave compensation.",
+    "key_safeguards": [
+      "Duration does not exceed 6 months",
+      "Specific geographic boundary",
+      "Guaranteed garden leave compensation",
+      "Excludes involuntary termination without cause"
+    ],
+    "typical_red_flags": [
+      "Worldwide scope without limitation",
+      "Duration exceeding 1-2 years",
+      "Applies to any role or industry",
+      "Zero compensation during restriction period"
+    ]
+  },
+  {
+    "id": "bench-emp-ip-01",
+    "category": "employment",
+    "clause_type": "ip_assignment",
+    "title": "Balanced Intellectual Property Assignment",
+    "standard_clause_text": "Employee assigns to Company all inventions, improvements, and works of authorship created solely or jointly during working hours or using Company equipment and facilities, that directly relate to Company's current commercial products or demonstrable R&D pipeline. Excluded from this assignment are any inventions developed entirely on Employee's own personal time without using Company resources, which do not relate to Company's actual business.",
+    "fairness_rationale": "Protects employer's legitimate business IP while explicitly carving out employee personal projects developed on off-hours without company resources.",
+    "key_safeguards": [
+      "Carve-out for off-hours personal projects",
+      "Requires use of company equipment or work hours",
+      "Must directly relate to company's actual business"
+    ],
+    "typical_red_flags": [
+      "Perpetual assignment of all ideas created anytime, anywhere",
+      "Assignment of pre-existing intellectual property without carve-outs",
+      "Waiver of all moral rights without reasonable scope"
+    ]
+  },
+  {
+    "id": "bench-sub-autorenew-01",
+    "category": "subscription",
+    "clause_type": "auto_renewal",
+    "title": "Transparent Auto-Renewal with Advance Notice",
+    "standard_clause_text": "This subscription automatically renews for successive one (1) month terms unless canceled by either party at least three (3) business days prior to renewal. For annual subscriptions, Provider shall send an electronic renewal reminder at least thirty (30) days prior to the billing date specifying any price adjustment. Customer may cancel at any time via an easily accessible self-service online portal with no phone call requirement.",
+    "fairness_rationale": "Clear notice period, automated reminder email prior to renewal, transparent pricing disclosure, and frictionless self-service cancellation mechanism.",
+    "key_safeguards": [
+      "Advance notice of renewal (at least 30 days for annual plans)",
+      "Advance notice of any price increase",
+      "Instant self-service online cancellation button"
+    ],
+    "typical_red_flags": [
+      "Silent multi-year auto-renewals",
+      "Narrow cancellation window (e.g., exactly 60-90 days prior via certified mail)",
+      "Requires phone call during limited business hours to cancel"
+    ]
+  },
+  {
+    "id": "bench-tos-arbitration-01",
+    "category": "tos",
+    "clause_type": "dispute_resolution",
+    "title": "Mutual Dispute Resolution with Small Claims Option",
+    "standard_clause_text": "In the event of any dispute arising out of this Agreement, the parties agree first to participate in good-faith informal resolution for thirty (30) days. If unresolved, disputes may be resolved through binding arbitration administered by the American Arbitration Association (AAA) under its Consumer Arbitration Rules. Either party maintains the right to bring an individual claim in small claims court. User may opt out of arbitration by sending written notice within thirty (30) days of opening an account.",
+    "fairness_rationale": "Includes mandatory 30-day informal negotiation, allows small claims court access, and grants user an explicit 30-day right to opt out.",
+    "key_safeguards": [
+      "Small claims court exception",
+      "Explicit 30-day opt-out provision",
+      "Provider pays standard arbitration administration fees for consumers"
+    ],
+    "typical_red_flags": [
+      "Mandatory binding arbitration in distant inconvenient jurisdiction",
+      "Complete waiver of jury trial and class action without opt-out",
+      "Unilateral fee-shifting forcing consumer to pay company's legal fees"
+    ]
+  },
+  {
+    "id": "bench-priv-datacollect-01",
+    "category": "privacy_policy",
+    "clause_type": "data_collection_sharing",
+    "title": "Purpose-Limited Data Collection and Privacy Rights",
+    "standard_clause_text": "We collect only personal data necessary to provide and secure the Services, consisting of account credentials and usage telemetry. We do not sell, rent, or monetize your personal information to third parties for targeted advertising. Users may access, export, correct, or permanently delete their personal data at any time through account settings or upon request within thirty (30) calendar days.",
+    "fairness_rationale": "Complies with GDPR and CCPA principles: purpose limitation, strict prohibition on sale of data, and verifiable data deletion rights.",
+    "key_safeguards": [
+      "Explicit prohibition on data sale",
+      "Strict data minimization standard",
+      "Full self-service data export and deletion"
+    ],
+    "typical_red_flags": [
+      "Broad sharing with 'unspecified commercial partners'",
+      "Indefinite retention of biometric or location data",
+      "No mechanism for data deletion or revocation of consent"
+    ]
+  },
+  {
+    "id": "bench-vendor-liability-01",
+    "category": "vendor",
+    "clause_type": "limitation_of_liability",
+    "title": "Mutual Cap on Liability with Standard Carve-Outs",
+    "standard_clause_text": "Except for breaches of confidentiality, gross negligence, or willful misconduct, each party's total aggregate liability arising out of or related to this Agreement shall be capped at the total amounts paid or payable by Customer in the twelve (12) months preceding the claim. Neither party shall be liable for indirect, incidental, special, or consequential damages.",
+    "fairness_rationale": "Mutual limitation capped at standard 12-month contract fees, balanced exclusion of consequential damages, and standard exclusions for intentional harm or confidentiality breaches.",
+    "key_safeguards": [
+      "Mutual liability cap (applies to both parties equally)",
+      "Tied to actual 12-month fees paid",
+      "Carve-outs for gross negligence and willful misconduct"
+    ],
+    "typical_red_flags": [
+      "Unilateral cap protecting only vendor while customer liability is uncapped",
+      "Cap set to nominal amount ($50 or $100) regardless of deal value",
+      "Exclusion of liability for vendor's intentional data breach"
+    ]
+  },
+  {
+    "id": "bench-rental-deposit-01",
+    "category": "rental",
+    "clause_type": "security_deposit",
+    "title": "Regulated Security Deposit Return & Inspection",
+    "standard_clause_text": "Landlord shall hold the security deposit in an interest-bearing escrow account. Within twenty-one (21) days of Tenant vacating the premises, Landlord shall return the full deposit minus only reasonable deductions for actual damages beyond ordinary wear and tear, accompanied by an itemized written invoice with receipts.",
+    "fairness_rationale": "Clear 21-day timeline, segregation of funds, explicit allowance for normal wear and tear, and mandatory itemized receipts.",
+    "key_safeguards": [
+      "Itemized deduction invoice with actual receipts",
+      "Strict return deadline (21 days)",
+      "Explicit protection for normal wear and tear"
+    ],
+    "typical_red_flags": [
+      "Non-refundable deposit fees disguised as deposits",
+      "Automatic deductions for standard repainting or turnover",
+      "No timeline or itemized breakdown for deductions"
+    ]
+  },
+  {
+    "id": "bench-ins-claim-01",
+    "category": "insurance",
+    "clause_type": "claims_notice",
+    "title": "Reasonable Claim Notification & Fair Dispute Resolution",
+    "standard_clause_text": "Insured shall provide written notice of any covered loss or claim as soon as reasonably practicable, but in no event later than sixty (60) days after the Insured discovers or reasonably should have discovered the loss. Failure to give notice within this period shall not invalidate or reduce any claim unless the Insurer demonstrates actual material prejudice resulting from the delay.",
+    "fairness_rationale": "Requires actual prejudice before denying a delayed claim, giving the policyholder a fair discovery standard rather than forfeiture.",
+    "key_safeguards": [
+      "Reasonable discoverability standard",
+      "Notice window of at least 60 days",
+      "Insurer must prove actual material prejudice to deny late notice"
+    ],
+    "typical_red_flags": [
+      "Immediate forfeiture if notice is not given within 48-72 hours",
+      "Sole discretion of insurer to determine validity of claims",
+      "Exclusion of coverage for ambiguities created by insurer"
+    ]
+  }
+]

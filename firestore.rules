@@ -1,0 +1,30 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // User profile and documents are strictly scoped to the authenticated user's UID
+    match /users/{userId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+
+      // Scoped documents subcollection
+      match /documents/{documentId} {
+        allow read, write, delete: if request.auth != null && request.auth.uid == userId;
+
+        // Scoped agent reasoning traces subcollection (Explainable AI)
+        match /traces/{traceId} {
+          allow read, write: if request.auth != null && request.auth.uid == userId;
+        }
+      }
+    }
+
+    // Public benchmark library (read-only for all authenticated users)
+    match /benchmarks/{benchmarkId} {
+      allow read: if request.auth != null;
+      allow write: if false; // Admin/seed only
+    }
+
+    // Default deny all other collections
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
