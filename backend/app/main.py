@@ -64,15 +64,27 @@ app.add_middleware(
 # Include API endpoints
 app.include_router(router)
 
-@app.get("/")
-async def root():
-    return {
-        "name": settings.APP_NAME,
-        "version": settings.APP_VERSION,
-        "docs_url": "/docs",
-        "health_url": "/api/health",
-        "disclaimer": "Informational only. Does not provide legally binding legal advice."
-    }
+# Mount frontend static distribution if built
+# FRONTEND_DIST env var is set in Docker to /app/static; falls back to local dev path
+dist_dir = os.environ.get(
+    "FRONTEND_DIST",
+    os.path.join(os.path.dirname(os.path.abspath(__file__)), "dist")
+)
+logger.info("Looking for frontend dist at: %s (exists=%s)", dist_dir, os.path.exists(dist_dir))
+if os.path.exists(dist_dir) and os.path.isdir(dist_dir):
+    from fastapi.staticfiles import StaticFiles
+    app.mount("/", StaticFiles(directory=dist_dir, html=True), name="frontend")
+    logger.info("Frontend static files mounted from %s", dist_dir)
+else:
+    @app.get("/")
+    async def root():
+        return {
+            "name": settings.APP_NAME,
+            "version": settings.APP_VERSION,
+            "docs_url": "/docs",
+            "health_url": "/api/health",
+            "disclaimer": "Informational only. Does not provide legally binding legal advice."
+        }
 
 if __name__ == "__main__":
     import uvicorn

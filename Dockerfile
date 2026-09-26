@@ -48,14 +48,15 @@ ENV PORT=7860
 # Copy backend source
 COPY backend/app/ ./app/
 
-# Copy built frontend into backend's static directory
-COPY --from=frontend-builder /frontend/dist/ ./app/dist/
+# Copy built frontend to an explicit, predictable path at /app/static
+COPY --from=frontend-builder /frontend/dist/ ./static/
+ENV FRONTEND_DIST=/app/static
 
 # Seed ChromaDB benchmark vectors at build time
 RUN python -m app.data.seed_benchmarks
 
-# Non-root user (uid=1000 required by HF Spaces; good practice for Render too)
-RUN useradd -m -u 1000 appuser && chown -R appuser:appuser /app
+# Non-root user — chown AFTER all copies so appuser can read everything
+RUN useradd -m -u 1000 appuser && chown -R appuser:appuser /app /opt/venv
 USER appuser
 
 EXPOSE 7860
