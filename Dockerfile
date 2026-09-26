@@ -1,5 +1,5 @@
 # ==============================================================================
-# LexGuard — Full-Stack Dockerfile for Hugging Face Spaces (Docker SDK)
+# LexGuard — Full-Stack Dockerfile for Render / Hugging Face Spaces
 # Builds React frontend + serves via FastAPI on port 7860
 # ==============================================================================
 
@@ -14,7 +14,7 @@ RUN npm ci --prefer-offline
 COPY frontend/ ./
 RUN npm run build
 
-# ── Stage 2: Install Python dependencies ──────────────────────────────────────
+# ── Stage 2: Install Python dependencies into a virtualenv ────────────────────
 FROM python:3.11-slim AS py-builder
 
 WORKDIR /app
@@ -23,8 +23,11 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential curl \
     && rm -rf /var/lib/apt/lists/*
 
+RUN python -m venv /opt/venv
+ENV PATH="/opt/venv/bin:$PATH"
+
 COPY backend/requirements.txt .
-RUN pip install --no-cache-dir --user -r requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
 
 # ── Stage 3: Final runtime image ───────────────────────────────────────────────
 FROM python:3.11-slim AS runner
@@ -36,9 +39,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libgomp1 \
     && rm -rf /var/lib/apt/lists/*
 
-# Copy Python packages
-COPY --from=py-builder /root/.local /root/.local
-ENV PATH=/root/.local/bin:$PATH
+# Copy virtualenv from builder (accessible by any user)
+COPY --from=py-builder /opt/venv /opt/venv
+ENV PATH="/opt/venv/bin:$PATH"
 ENV PYTHONUNBUFFERED=1
 ENV PORT=7860
 
@@ -51,7 +54,7 @@ COPY --from=frontend-builder /frontend/dist/ ./app/dist/
 # Seed ChromaDB benchmark vectors at build time
 RUN python -m app.data.seed_benchmarks
 
-# HuggingFace Spaces requires uid=1000
+# Non-root user (uid=1000 required by HF Spaces; good practice for Render too)
 RUN useradd -m -u 1000 appuser && chown -R appuser:appuser /app
 USER appuser
 
